@@ -3,6 +3,10 @@
 DriftLab is a Streamlit app for playing with data drift like an incident
 response exercise.
 
+## Live demo
+
+[Open the verified Streamlit demo](https://yogesh-driftlab-monitoring.streamlit.app/)
+
 You choose the drift scenario, drift strength, label noise, row count, and alert
 thresholds. The app trains a small logistic regression model from scratch on a
 reference window, scores a current window, and shows what changed.
