@@ -1,7 +1,15 @@
 # DriftLab: Model Monitoring Simulator
 
-DriftLab is a Streamlit app for playing with data drift like an incident
-response exercise.
+## What this product is
+
+DriftLab is a Streamlit simulator that shows what happens when a machine
+learning model receives data that no longer looks like its training data. You
+can change the drift type, drift strength, label noise, sample size, and alert
+thresholds from the sidebar.
+
+The dashboard updates the model's health metrics, drift scores, feature
+distributions, and alerts. It is a simple way to learn why a model can look good
+at launch and then lose performance when real-world data changes.
 
 ## Live demo
 
@@ -13,6 +21,22 @@ reference window, scores a current window, and shows what changed.
 
 It is synthetic by design. The point is not to pretend this came from a company.
 The point is to show how model monitoring works when distributions move.
+
+## Demo screenshots
+
+### Model health and alerts
+
+The main dashboard compares reference and current performance, then explains
+which monitoring alerts were triggered.
+
+![DriftLab model health dashboard](docs/images/driftlab-dashboard.png)
+
+### Feature-level drift
+
+The diagnostics view shows which feature changed most and compares its
+reference and current distributions.
+
+![DriftLab feature drift diagnostics](docs/images/driftlab-diagnostics.png)
 
 ## What it does
 
