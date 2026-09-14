@@ -1,5 +1,7 @@
 # DriftLab: Model Monitoring Simulator
 
+[See the workflow flowchart and code walkthrough](WORKFLOW.md)
+
 ## What this product is
 
 DriftLab is a Streamlit simulator that shows what happens when a machine
