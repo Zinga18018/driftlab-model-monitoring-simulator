@@ -6,76 +6,156 @@
     "label_noise": 0.08,
     "seed": 42,
     "psi_alert_threshold": 0.2,
-    "auc_drop_threshold": 0.08
+    "auc_drop_threshold": 0.08,
+    "train_rows": null
   },
   "reference_metrics": {
-    "accuracy": 0.6925,
-    "precision": 0.6868,
-    "recall": 0.684,
-    "f1": 0.6854,
-    "auc": 0.7576,
-    "positive_rate": 0.4898,
-    "predicted_positive_rate": 0.4878,
-    "tp": 1340,
-    "tn": 1430,
-    "fp": 611,
-    "fn": 619
+    "accuracy": 0.704,
+    "precision": 0.699,
+    "recall": 0.7109,
+    "f1": 0.7049,
+    "auc": 0.7714343358886606,
+    "auc_defined": true,
+    "positive_rate": 0.49725,
+    "predicted_positive_rate": 0.5058,
+    "tp": 1414,
+    "tn": 1402,
+    "fp": 609,
+    "fn": 575,
+    "rows": 4000,
+    "positive_count": 1989,
+    "negative_count": 2011
   },
   "current_metrics": {
-    "accuracy": 0.4318,
-    "precision": 0.5051,
-    "recall": 0.5383,
-    "f1": 0.5212,
-    "auc": 0.372,
-    "positive_rate": 0.5745,
-    "predicted_positive_rate": 0.6122,
-    "tp": 1237,
-    "tn": 490,
-    "fp": 1212,
-    "fn": 1061
+    "accuracy": 0.3935,
+    "precision": 0.4508,
+    "recall": 0.5165,
+    "f1": 0.4814,
+    "auc": 0.3155469301340861,
+    "auc_defined": true,
+    "positive_rate": 0.545,
+    "predicted_positive_rate": 0.6245,
+    "tp": 1126,
+    "tn": 448,
+    "fp": 1372,
+    "fn": 1054,
+    "rows": 4000,
+    "positive_count": 2180,
+    "negative_count": 1820
   },
   "drift_table": [
     {
       "feature": "signal",
-      "reference_mean": -0.0195,
-      "current_mean": 0.7823,
-      "mean_delta": 0.8019,
-      "psi": 0.6078,
-      "ks_stat": 0.3162,
+      "reference_mean": -0.0053,
+      "current_mean": 0.7037,
+      "mean_delta": 0.709,
+      "psi": 0.48212932814450415,
+      "ks_stat": 0.2692,
       "ks_p_value": 0.0
     },
     {
       "feature": "activity_score",
-      "reference_mean": -0.0153,
-      "current_mean": -0.0024,
-      "mean_delta": 0.0129,
-      "psi": 0.2012,
-      "ks_stat": 0.1073,
+      "reference_mean": 0.0191,
+      "current_mean": 0.0121,
+      "mean_delta": -0.0071,
+      "psi": 0.21097745146613447,
+      "ks_stat": 0.1062,
       "ks_p_value": 0.0
     },
     {
       "feature": "income_index",
-      "reference_mean": -0.0001,
-      "current_mean": -0.4112,
-      "mean_delta": -0.4111,
-      "psi": 0.1674,
-      "ks_stat": 0.1703,
+      "reference_mean": -0.0044,
+      "current_mean": -0.3967,
+      "mean_delta": -0.3923,
+      "psi": 0.1548904595461674,
+      "ks_stat": 0.1605,
       "ks_p_value": 0.0
     },
     {
       "feature": "risk_noise",
-      "reference_mean": -0.002,
-      "current_mean": -0.0247,
-      "mean_delta": -0.0228,
-      "psi": 0.0089,
-      "ks_stat": 0.0225,
-      "ks_p_value": 0.261072
+      "reference_mean": -0.0094,
+      "current_mean": 0.0084,
+      "mean_delta": 0.0178,
+      "psi": 0.003667286641369288,
+      "ks_stat": 0.0158,
+      "ks_p_value": 0.737459
     }
   ],
   "alerts": [
-    "Distribution drift: signal PSI=0.608",
-    "Model degradation: AUC drop=0.386",
-    "Class-prior shift: current positive rate moved up"
+    "Distribution drift: signal PSI=0.482",
+    "Model degradation: AUC drop=0.456"
   ],
-  "summary": "Top drift feature is signal with PSI 0.608 and KS p-value 0. Reference AUC is 0.758; current AUC is 0.372, a change of -0.386. Alert status: Distribution drift: signal PSI=0.608."
+  "alert_flags": {
+    "distribution_drift": true,
+    "model_degradation": true,
+    "positive_rate_shift": false
+  },
+  "alert_count": 2,
+  "split_manifest": {
+    "training": {
+      "rows": 4000,
+      "class_counts": {
+        "0": 1972,
+        "1": 2028
+      },
+      "sha256_csv": "1dcfdb5825faaff64ad198c2c5787af38295b83c7ebff0bf6b96da8c0c35bf22",
+      "random_spawn_key": [
+        0
+      ],
+      "used_for_fitting": true
+    },
+    "reference": {
+      "rows": 4000,
+      "class_counts": {
+        "0": 2011,
+        "1": 1989
+      },
+      "sha256_csv": "7e1650f852b6b50b57b63cbf3fee1cc1637c3f3c5d614b6d785bce8658c8ea3c",
+      "random_spawn_key": [
+        1
+      ],
+      "used_for_fitting": false
+    },
+    "current": {
+      "rows": 4000,
+      "class_counts": {
+        "0": 1820,
+        "1": 2180
+      },
+      "sha256_csv": "6c03e671f9693749117e963dceae524a2b838203266d04c114e81bc87f1d2d56",
+      "random_spawn_key": [
+        2
+      ],
+      "used_for_fitting": false
+    }
+  },
+  "model": {
+    "weights": [
+      0.03455953483515528,
+      0.8707853045119222,
+      0.5545641186469088,
+      -0.5389385514100653,
+      0.22108083658055755
+    ],
+    "feature_means": [
+      0.0194015222430799,
+      -0.0025700316682155133,
+      -0.012995338169289192,
+      -0.051753899886907005
+    ],
+    "feature_stds": [
+      1.00051103454192,
+      0.9784409427395091,
+      0.9890347018708606,
+      0.9966012456987501
+    ],
+    "fitted_on": "training",
+    "features": [
+      "signal",
+      "income_index",
+      "activity_score",
+      "risk_noise"
+    ]
+  },
+  "summary": "Top drift feature is signal with PSI 0.482 and KS p-value 0. Held-out reference AUC is 0.771; current AUC is 0.316, a change of -0.456. Alert status: Distribution drift: signal PSI=0.482."
 }

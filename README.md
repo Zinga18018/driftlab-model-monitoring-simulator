@@ -1,121 +1,97 @@
 # DriftLab: Model Monitoring Simulator
 
-[See the workflow flowchart and code walkthrough](WORKFLOW.md)
+**An interactive experiment in when data drift does, and does not, imply model degradation.**
 
-## What this product is
+DriftLab generates synthetic classification data, trains a small logistic model, and compares an independent reference window with a current window. Its purpose is to make monitoring decisions explainable: a changed input distribution can trigger an alert while predictive performance stays stable or improves.
 
-DriftLab is a Streamlit simulator that shows what happens when a machine
-learning model receives data that no longer looks like its training data. You
-can change the drift type, drift strength, label noise, sample size, and alert
-thresholds from the sidebar.
+[Workflow and source-code map](WORKFLOW.md) · [Repeated evaluation report](outputs/MONITORING_BENCHMARK.md) · [Full benchmark evidence](outputs/monitoring_benchmark.json)
 
-The dashboard updates the model's health metrics, drift scores, feature
-distributions, and alerts. It is a simple way to learn why a model can look good
-at launch and then lose performance when real-world data changes.
+[Hosted Streamlit demo](https://yogesh-driftlab-monitoring.streamlit.app/) — the hosted app may lag this repository; the verification below covers local code and the Streamlit test harness.
 
-## Live demo
+## What you can explore
 
-[Open the verified Streamlit demo](https://yogesh-driftlab-monitoring.streamlit.app/)
+- No drift, mean shift, variance shift, changes in positive rate, and mixed feature/conditional-label changes.
+- PSI and approximate two-sample KS diagnostics for four features.
+- Accuracy, precision, recall, F1, ROC-AUC, confusion counts, and class rates.
+- Separate distribution, AUC degradation, and positive-rate alerts.
+- How sample size, label noise, drift strength, and fixed alert thresholds affect the result.
 
-You choose the drift scenario, drift strength, label noise, row count, and alert
-thresholds. The app trains a small logistic regression model from scratch on a
-reference window, scores a current window, and shows what changed.
+The app uses immediately available synthetic labels. It does not monitor production traffic or automatically retrain a model.
 
-It is synthetic by design. The point is not to pretend this came from a company.
-The point is to show how model monitoring works when distributions move.
+## Why the reference baseline changed
 
-## Demo screenshots
+The earlier implementation trained on the reference window and scored that same window. That made the reported reference AUC an in-sample result. The implementation now generates **three independent windows** from separate seeded random streams:
 
-### Model health and alerts
+1. **Training:** fit both feature scaling and logistic-regression weights.
+2. **Held-out reference:** score the model and establish feature-distribution bins without fitting the model.
+3. **Current:** score the same frozen model and compare the selected drift scenario against the reference.
 
-The main dashboard compares reference and current performance, then explains
-which monitoring alerts were triggered.
+At the same seed, changing the current scenario leaves training data, reference data, feature scaling, and model weights unchanged. The saved split manifest records row counts, class counts, generation-stream keys, SHA-256 fingerprints, and which window was used for fitting.
 
-![DriftLab model health dashboard](docs/images/driftlab-dashboard.png)
+These are newly generated synthetic development experiments. They do not establish that any previous evaluation set was untouched, and they are not a locked benchmark.
 
-### Feature-level drift
+## Repeated evaluation at fixed thresholds
 
-The diagnostics view shows which feature changed most and compares its
-reference and current distributions.
+The benchmark evaluates the no-drift case first, then compares the other scenarios. It uses **40 independent seeds per scenario**, with **2,000 training, 2,000 reference, and 2,000 current rows** per seed. The existing thresholds were retained: PSI >= 0.20, AUC drop >= 0.08, and absolute positive-rate change > 0.08. No thresholds were tuned on these results.
 
-![DriftLab feature drift diagnostics](docs/images/driftlab-diagnostics.png)
+| Scenario | Mean max PSI | Mean AUC drop | Distribution alerts | AUC degradation alerts |
+|---|---:|---:|---:|---:|
+| No drift | 0.0140 | -0.0003 | 0/40 | 0/40 |
+| Mean shift | 0.9054 | 0.0032 | 40/40 | 0/40 |
+| Variance shift | 0.2869 | -0.0525 | 40/40 | 0/40 |
+| Positive-rate scenario | 0.5401 | 0.0134 | 40/40 | 0/40 |
+| Mixed drift | 0.5392 | 0.4341 | 40/40 | 40/40 |
 
-## What it does
+A positive AUC drop means performance fell. The variance-shift scenario improved AUC while triggering a distribution alert in every trial. The mixed scenario triggered both types of alert in every trial. These results demonstrate why drift alone should not trigger automatic retraining.
 
-- Simulates reference and current data windows.
-- Trains logistic regression with NumPy gradient descent.
-- Computes accuracy, precision, recall, F1, ROC-AUC, and class rates.
-- Computes feature-level PSI and approximate two-sample KS tests.
-- Shows alerts for distribution drift, model degradation, and class-prior shift.
-- Generates a plain-English incident summary.
+**No-drift false alerts: 0/40 runs, with a Wilson 95% interval of 0.0%–8.8%.** Zero observed alerts is not proof of zero false-alert risk. Rates across independent synthetic seeds are not production false alarms per day.
 
-## Verified demo snapshot
+The [generated report](outputs/MONITORING_BENCHMARK.md) and [JSON evidence](outputs/monitoring_benchmark.json) contain all 200 trials, seeds 1000–1039, class counts, actual thresholds, split fingerprints, dependency versions, and source hashes.
 
-Generated with:
+## Default app snapshot
 
-```powershell
-python scripts_generate_metrics.py
-```
+The regenerated [default snapshot](outputs/demo_metrics.json) uses seed 42, mixed drift strength 1.15, label noise 0.08, and **4,000 rows in each of the three windows**:
 
-Observed output:
+- Held-out reference AUC: **0.7714**
+- Current AUC: **0.3155**
+- Maximum PSI: **0.4821**
+- Triggered alerts: **2**
 
-```text
-wrote outputs\demo_metrics.json
-reference_auc=0.7576
-current_auc=0.372
-max_psi=0.6078
-alerts=3
-```
+Older screenshots and the previous AUC 0.7576 → 0.3720 snapshot used the former in-sample baseline and are superseded. They should not be used as current evaluation evidence.
 
-Default snapshot details:
+## Run and reproduce
 
-- Reference window: `4,000` rows
-- Current window: `4,000` rows
-- Scenario: `mixed`
-- Drift strength: `1.15`
-- Label noise: `0.08`
-- Max PSI: `0.6078`
-- Reference AUC: `0.7576`
-- Current AUC: `0.3720`
-- Alerts triggered: `3`
-
-## Run the app
+Verified with Python 3.12.13. The lock file captures the exact packages used for these results.
 
 ```powershell
-pip install -r requirements.txt
-streamlit run app.py
+python -m venv .venv
+.venv/Scripts/python.exe -m pip install -r requirements-lock.txt
+.venv/Scripts/python.exe -m streamlit run app.py
 ```
 
-## Run tests
-
-The core logic only needs NumPy and Pandas.
+Generate the evidence and run the tests:
 
 ```powershell
-python -m unittest discover -s tests
+.venv/Scripts/python.exe -m unittest discover -s tests -v
+.venv/Scripts/python.exe scripts_generate_metrics.py
+.venv/Scripts/python.exe scripts_benchmark.py --runs 40 --rows 2000 --start-seed 1000
 ```
 
-Current local result:
+Local result: **18 tests passed**, including independence of the three windows, train-only scaling, identical no-drift behavior at zero strength, seeded reproducibility, AUC tie handling, invalid/small samples, false-alert counting, constant-feature changes, and default/no-drift Streamlit rendering.
 
-```text
-Ran 3 tests
-OK
-```
+## Implementation choices and limits
 
-## Safe resume wording
+- Logistic regression is implemented in NumPy with 600 gradient-descent steps. This is an interpretable demonstration, not a comparison against tuned model families.
+- The `class_prior_shift` scenario name is retained for compatibility, but it changes feature means and the conditional label rule. It is **not a pure label-shift experiment** with fixed class-conditional feature distributions.
+- Mixed drift scales the change in the conditional label rule with drift strength. At strength zero, every scenario uses exactly the same generating rule for a given seed.
+- Single-class AUC is recorded as JSON `null`, with explicit class counts. AUC degradation is not assessed for an unavailable comparison. Precision/recall with no relevant predictions or labels use zero-denominator conventions.
+- PSI uses reference quantile bins, with explicit handling for constant reference features. Its magnitude and alert behavior depend on sample size, binning, and the simulated population.
+- KS p-values are asymptotic approximations for diagnostics. They do not drive the alert policy; this project does not claim exact small-sample or multiple-testing control.
+- There are no delayed labels, overlapping temporal windows, seasonality, missing features, deployment failures, or cost-based alert policies in this benchmark.
+- Threshold tuning would require a separate development/calibration protocol and a new evaluation protocol. The present evidence describes fixed thresholds only.
 
-Strong and honest:
+## Defensible portfolio wording
 
-> Built DriftLab, a Streamlit model-monitoring simulator that trains a NumPy
-> logistic model and visualizes PSI, KS tests, AUC/F1 degradation, class-prior
-> shift, and alert thresholds across configurable drift scenarios.
+> Built an interactive model-monitoring simulator with independent training and reference windows, train-only preprocessing, and reproducible drift experiments. Evaluated fixed alert thresholds across 200 synthetic trials and reported false-alert uncertainty; demonstrated feature drift both with and without AUC degradation.
 
-Also safe:
-
-> Verified a default mixed-drift run over 4,000 reference and 4,000 current rows,
-> with max PSI 0.6078, AUC moving from 0.7576 to 0.3720, and 3 alerts.
-
-Avoid:
-
-- Do not describe this as production monitoring.
-- Do not claim real company data.
-- Do not claim live deployment traffic unless it is actually deployed and measured.
+Do not describe the project as production monitoring or the synthetic benchmark as real-world model reliability.
