@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="960" viewBox="0 0 1200 960" role="img" aria-labelledby="title desc">
+  <title id="title">DriftLab: separate data change from model degradation</title>
+  <desc id="desc">Three independent synthetic windows. Only training fits feature scaling and logistic regression. Reference and current windows share a frozen model, feed PSI and KS diagnostics, and produce separate distribution, AUC and positive-rate alerts. A separate benchmark runner repeats the same experiment across seeds and saves uncertainty and audit evidence.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker>
+    <marker id="teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker>
+    <style>
+      text{font-family:Segoe UI,Arial,sans-serif;fill:#17283d}.eyebrow{font-size:14px;font-weight:700;letter-spacing:2px;fill:#0f766e}.heading{font-size:34px;font-weight:700}.subtitle{font-size:18px;fill:#53667b}.label{font-size:15px;font-weight:700;letter-spacing:1px;fill:#53667b}.title{font-size:21px;font-weight:700}.body{font-size:17px;fill:#42566d}.small{font-size:15px;fill:#53667b}.path{fill:none;stroke:#64748b;stroke-width:2.5;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1200" height="960" rx="24" fill="#f4f7fb"/>
+  <text class="eyebrow" x="48" y="48">DRIFTLAB / EXPERIMENT FLOW</text>
+  <text class="heading" x="48" y="96">Data drift and model degradation are separate signals.</text>
+  <text class="subtitle" x="48" y="132">Synthetic data. Independent windows. Explicit alert rules. No automatic retraining.</text>
+  <path d="M48 161H1152" stroke="#d5deea"/>
+  <text class="label" x="48" y="196">01 / GENERATE</text>
+  <text class="label" x="440" y="196">02 / MEASURE</text>
+  <text class="label" x="850" y="196">03 / INSPECT</text>
+
+  <rect x="48" y="220" width="280" height="104" rx="12" fill="#e1f4ef" stroke="#9ccdc1"/>
+  <text class="title" x="70" y="254">Training window</text>
+  <text class="body" x="70" y="282">Independent random stream</text>
+  <text class="small" x="70" y="306">Baseline generating rule</text>
+  <rect x="48" y="380" width="280" height="104" rx="12" fill="#ffffff" stroke="#c8d6e5"/>
+  <text class="title" x="70" y="414">Held-out reference</text>
+  <text class="body" x="70" y="442">Independent random stream</text>
+  <text class="small" x="70" y="466">Baseline generating rule</text>
+  <rect x="48" y="540" width="280" height="104" rx="12" fill="#ffffff" stroke="#c8d6e5"/>
+  <text class="title" x="70" y="574">Current window</text>
+  <text class="body" x="70" y="602">Independent random stream</text>
+  <text class="small" x="70" y="626">Selected drift scenario</text>
+  <path class="path" d="M328 272H440"/>
+  <rect x="440" y="220" width="330" height="104" rx="12" fill="#e1f4ef" stroke="#9ccdc1"/>
+  <text class="title" x="462" y="254">Fit once on training</text>
+  <text class="body" x="462" y="282">Feature scaling + logistic model</text>
+  <text class="small" x="462" y="306">Reference/current never fit parameters</text>
+  <path d="M605 324V380" fill="none" stroke="#0f766e" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#teal)"/>
+  <text class="small" x="618" y="357">frozen parameters</text>
+  <path d="M328 432H366V512H396" fill="none" stroke="#64748b" stroke-width="2.5"/>
+  <path d="M328 592H366V512" fill="none" stroke="#64748b" stroke-width="2.5"/>
+  <path class="path" d="M396 512V432H440"/>
+  <path class="path" d="M396 512V592H440"/>
+  <circle cx="396" cy="512" r="5" fill="#64748b"/>
+  <rect x="440" y="380" width="330" height="104" rx="12" fill="#ffffff" stroke="#c8d6e5"/>
+  <text class="title" x="462" y="414">Score both windows</text>
+  <text class="body" x="462" y="442">AUC, F1 and confusion counts</text>
+  <text class="small" x="462" y="466">Compare AUC and observed label rate</text>
+  <rect x="440" y="540" width="330" height="104" rx="12" fill="#ffffff" stroke="#c8d6e5"/>
+  <text class="title" x="462" y="574">Compare feature distributions</text>
+  <text class="body" x="462" y="602">PSI: reference quantile bins</text>
+  <text class="small" x="462" y="626">Approximate KS: diagnostic only</text>
+  <path class="path" d="M770 432H850"/>
+  <path class="path" d="M770 592H850"/>
+  <rect x="850" y="380" width="302" height="264" rx="12" fill="#182d43"/>
+  <text x="874" y="416" style="font-family:Segoe UI,Arial,sans-serif;font-size:21px;font-weight:700;fill:#ffffff">Separate alert rules</text>
+  <text x="874" y="454" style="font-family:Segoe UI,Arial,sans-serif;font-size:17px;fill:#cfe2f0">Distribution / PSI threshold</text>
+  <text x="874" y="486" style="font-family:Segoe UI,Arial,sans-serif;font-size:17px;fill:#cfe2f0">Degradation / AUC drop</text>
+  <text x="874" y="518" style="font-family:Segoe UI,Arial,sans-serif;font-size:17px;fill:#cfe2f0">Positive-rate change</text>
+  <path d="M874 539H1128" stroke="#4c6277"/>
+  <text x="874" y="570" style="font-family:Segoe UI,Arial,sans-serif;font-size:17px;fill:#ffffff">Streamlit views + incident summary</text>
+  <text x="874" y="604" style="font-family:Segoe UI,Arial,sans-serif;font-size:15px;fill:#cfe2f0">An alert is a signal to investigate.</text>
+  <text class="small" x="48" y="682">All windows use immediately available synthetic labels. AUC is unavailable for a single-class window.</text>
+
+  <rect x="48" y="720" width="1104" height="176" rx="14" fill="#eaf0fa" stroke="#c7d6e9"/>
+  <text class="eyebrow" x="72" y="753">SEPARATE BENCHMARK RUNNER / SAME EXPERIMENT FUNCTION</text>
+  <text class="title" x="72" y="789">Repeat the no-drift baseline, then compare scenarios at fixed thresholds.</text>
+  <text class="body" x="72" y="823">Save per-seed trials, split fingerprints, class counts, source hashes and Wilson intervals.</text>
+  <text class="small" x="72" y="859">Checked-in evidence: 40 seeds × 5 scenarios. Synthetic development experiments; not production reliability.</text>
+  <text class="small" x="48" y="932">Source: driftlab/simulator.py · driftlab/benchmark.py · app.py · scripts_benchmark.py</text>
+</svg>

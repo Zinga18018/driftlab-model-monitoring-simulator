@@ -1,8 +1,8 @@
 # DriftLab: Model Monitoring Simulator
 
-**An interactive experiment in when data drift does, and does not, imply model degradation.**
+**Explore how distribution changes affect a model.**
 
-DriftLab generates synthetic classification data, trains a small logistic model, and compares an independent reference window with a current window. Its purpose is to make monitoring decisions explainable: a changed input distribution can trigger an alert while predictive performance stays stable or improves.
+DriftLab is a Streamlit simulator for investigating model-monitoring alerts. Choose a synthetic drift scenario, score a frozen logistic model, and compare distribution changes with held-out predictive performance. The training, reference, and current windows are generated independently.
 
 [Workflow and source-code map](WORKFLOW.md) · [Repeated evaluation report](outputs/MONITORING_BENCHMARK.md) · [Full benchmark evidence](outputs/monitoring_benchmark.json)
 
@@ -17,6 +17,40 @@ DriftLab generates synthetic classification data, trains a small logistic model,
 - How sample size, label noise, drift strength, and fixed alert thresholds affect the result.
 
 The app uses immediately available synthetic labels. It does not monitor production traffic or automatically retrain a model.
+
+## How it works
+
+![DriftLab data flow: only training data fits the scaler and model; independent reference and current windows feed scoring, drift diagnostics, and separate alert decisions.](docs/monitoring-flow.svg)
+
+```mermaid
+flowchart TD
+    A["Seed, scenario, strength and label noise"] --> B["Generate three independent synthetic windows"]
+    B --> T["Training window"]
+    B --> R["Held-out reference window"]
+    B --> C["Current window: selected scenario"]
+    T --> M["Fit scaler and logistic model on training only"]
+    M --> S["Score reference and current with frozen parameters"]
+    R --> S
+    C --> S
+    R --> D["Reference quantile PSI bins and approximate KS diagnostics"]
+    C --> D
+    S --> F["Compare AUC and positive rate"]
+    F --> G["Apply separate fixed alert rules"]
+    D --> G
+    G --> H["Streamlit metrics, distributions and incident summary"]
+    I["Separate benchmark runner: no-drift baseline, then drift scenarios"] -. "Calls the same experiment across repeated seeds" .-> B
+    I --> J["Save trials, split fingerprints, source hashes and Wilson intervals"]
+```
+
+The benchmark calls the same experiment function as the app. It runs separately from the UI. Changing a current-window scenario does not refit the model on that window. PSI drives the distribution alert; KS p-values are diagnostic only.
+
+| Component | Responsibility |
+|---|---|
+| [`app.py`](app.py) | Streamlit controls, charts, metrics and alert display |
+| [`driftlab/simulator.py`](driftlab/simulator.py) | Independent streams, train-only scaling, model fit, scoring and alert rules |
+| [`driftlab/benchmark.py`](driftlab/benchmark.py) | Repeated seeds, paired scenarios and binomial uncertainty |
+| [`scripts_benchmark.py`](scripts_benchmark.py) | CLI, saved JSON/report and source hashes |
+| [`tests/`](tests/) | Independence, numerical edge cases, alert behavior and app smoke checks |
 
 ## Why the reference baseline changed
 
@@ -46,7 +80,7 @@ A positive AUC drop means performance fell. The variance-shift scenario improved
 
 **No-drift false alerts: 0/40 runs, with a Wilson 95% interval of 0.0%–8.8%.** Zero observed alerts is not proof of zero false-alert risk. Rates across independent synthetic seeds are not production false alarms per day.
 
-The [generated report](outputs/MONITORING_BENCHMARK.md) and [JSON evidence](outputs/monitoring_benchmark.json) contain all 200 trials, seeds 1000–1039, class counts, actual thresholds, split fingerprints, dependency versions, and source hashes.
+The [generated report](outputs/MONITORING_BENCHMARK.md) and [JSON evidence](outputs/monitoring_benchmark.json) contain all 200 trials, seeds 1000-1039, class counts, actual thresholds, split fingerprints, dependency versions, and source hashes. The archived JSON records an older simulator-file hash. A [fresh local verification on 2026-10-26](docs/verification-20261026.md) reproduced every stored trial and scenario summary exactly using the current source. The original evidence files are unchanged.
 
 ## Default app snapshot
 
@@ -61,7 +95,7 @@ Older screenshots and the previous AUC 0.7576 → 0.3720 snapshot used the forme
 
 ## Run and reproduce
 
-Verified with Python 3.12.13. The lock file captures the exact packages used for these results.
+Run these commands from the repository root. The saved results record Python 3.12.13; the lock file captures that evaluation environment. Creating the environment and installing dependencies requires package-index access.
 
 ```powershell
 python -m venv .venv
@@ -69,15 +103,21 @@ python -m venv .venv
 .venv/Scripts/python.exe -m streamlit run app.py
 ```
 
-Generate the evidence and run the tests:
+Run the tests first:
 
 ```powershell
 .venv/Scripts/python.exe -m unittest discover -s tests -v
-.venv/Scripts/python.exe scripts_generate_metrics.py
-.venv/Scripts/python.exe scripts_benchmark.py --runs 40 --rows 2000 --start-seed 1000
 ```
 
-Local result: **18 tests passed**, including independence of the three windows, train-only scaling, identical no-drift behavior at zero strength, seeded reproducibility, AUC tie handling, invalid/small samples, false-alert counting, constant-feature changes, and default/no-drift Streamlit rendering.
+To regenerate results, write to a new directory so the checked-in benchmark remains available for comparison. The full command below runs 200 experiments and can take longer than the app's single run.
+
+```powershell
+.venv/Scripts/python.exe scripts_benchmark.py --runs 40 --rows 2000 --start-seed 1000 --output-dir outputs/reproduced
+```
+
+The previous verification recorded **18 passing tests**, including independence of the three windows, train-only scaling, identical no-drift behavior at zero strength, seeded reproducibility, AUC tie handling, invalid/small samples, false-alert counting, constant-feature changes, and default/no-drift Streamlit rendering. On the 2026-10-26 review, the **17 simulator tests passed**; the Streamlit smoke check was not repeated. The [verification notes](docs/verification-20261026.md) record the environment and limits of that check.
+
+`scripts_generate_metrics.py` regenerates and overwrites `outputs/demo_metrics.json`; use it only when intentionally refreshing that snapshot.
 
 ## Implementation choices and limits
 
@@ -90,8 +130,6 @@ Local result: **18 tests passed**, including independence of the three windows, 
 - There are no delayed labels, overlapping temporal windows, seasonality, missing features, deployment failures, or cost-based alert policies in this benchmark.
 - Threshold tuning would require a separate development/calibration protocol and a new evaluation protocol. The present evidence describes fixed thresholds only.
 
-## Defensible portfolio wording
+## What the experiment shows
 
-> Built an interactive model-monitoring simulator with independent training and reference windows, train-only preprocessing, and reproducible drift experiments. Evaluated fixed alert thresholds across 200 synthetic trials and reported false-alert uncertainty; demonstrated feature drift both with and without AUC degradation.
-
-Do not describe the project as production monitoring or the synthetic benchmark as real-world model reliability.
+The useful result is the separation of two questions: did the inputs change, and did predictive performance fall? The checked-in experiments show cases where those answers differ. Repeated no-drift trials also put uncertainty around false alerts, rather than treating zero observed alerts as a guarantee.

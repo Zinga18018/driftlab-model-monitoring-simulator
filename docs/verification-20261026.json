@@ -1,0 +1,26 @@
+{
+  "verification_date": "2026-10-26",
+  "scope": "Full local benchmark rerun; original output files preserved",
+  "command": "python scripts_benchmark.py --runs 40 --rows 2000 --start-seed 1000 --output-dir outputs/reproduced",
+  "stored_trial_count": 200,
+  "rerun_trial_count": 200,
+  "all_trial_records_equal": true,
+  "all_scenario_summaries_equal": true,
+  "protocol_equal": true,
+  "canonical_trial_json_sha256": "5c9a4974d14a100624f0614295935276f5e9f02b1e3e70122d8f0966a4d32985",
+  "canonical_summary_json_sha256": "c3360a2dce8e9ca1ee1e41d5fe1cda4218e03a9c01e94d9d4a0469848a597839",
+  "rerun_environment_and_source": {
+    "python": "3.14.7",
+    "numpy": "2.5.3",
+    "pandas": "2.3.3",
+    "source_sha256": {
+      "driftlab/simulator.py": "4b747f99018983adb011b643a379c9d3edc0d94c2214324f89576c14098b3ca2",
+      "driftlab/benchmark.py": "23b1a1433bc8fc698b328a4261d82ed6c139376268914a84f147f56603b88c51",
+      "scripts_benchmark.py": "13db588a7eaab5b55dd3cc83d7e6121711e6ec4bd2e3ba76317119900f81cd8f"
+    }
+  },
+  "archived_simulator_sha256": "8057d3b6a6d9ce91bac3d8b3376d685f793963c1bd51d9c9b78cd872ddf8be30",
+  "simulator_tests_passed": 17,
+  "streamlit_smoke_test_rerun": false,
+  "streamlit_test_blocker": "Windows Application Control blocked the original Streamlit environment Python executable."
+}
