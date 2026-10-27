@@ -1,0 +1,5 @@
+# Optional README plot generation only; not required by the app/runtime.
+# Exact SVG/PNG comparisons are scoped to this plotting environment.
+matplotlib==3.10.8
+numpy==2.3.5
+Pillow==12.3.0

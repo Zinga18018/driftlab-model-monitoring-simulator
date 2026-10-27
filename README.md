@@ -20,8 +20,6 @@ The app uses immediately available synthetic labels. It does not monitor product
 
 ## How it works
 
-![DriftLab data flow: only training data fits the scaler and model; independent reference and current windows feed scoring, drift diagnostics, and separate alert decisions.](docs/monitoring-flow.svg)
-
 ```mermaid
 flowchart TD
     A["Seed, scenario, strength and label noise"] --> B["Generate three independent synthetic windows"]
@@ -68,9 +66,9 @@ These are newly generated synthetic development experiments. They do not establi
 
 The benchmark evaluates the no-drift case first, then compares the other scenarios. It uses **40 independent seeds per scenario**, with **2,000 training, 2,000 reference, and 2,000 current rows** per seed. The existing thresholds were retained: PSI >= 0.20, AUC drop >= 0.08, and absolute positive-rate change > 0.08. No thresholds were tuned on these results.
 
-[![Scatter plot of all 200 synthetic trials: mean, variance and positive-rate scenarios trigger distribution alerts without AUC-degradation alerts; mixed drift triggers both. Negative AUC drop indicates improvement.](docs/images/drift-vs-degradation.svg)](docs/images/drift-vs-degradation.svg)
+[![Maximum feature PSI versus reference-minus-current AUC for 200 synthetic trials, with fixed thresholds at PSI 0.20 and AUC drop 0.08.](docs/images/drift-vs-degradation.svg)](docs/images/drift-vs-degradation.svg)
 
-Every marker is one archived trial, with no jitter or sampling. These are synthetic development experiments, not production risk estimates. [Plot source, exact input hash, and reproduction checks](docs/VISUAL_EVIDENCE.md).
+Each marker is one archived synthetic trial; [source and reproduction](docs/VISUAL_EVIDENCE.md).
 
 | Scenario | Mean max PSI | Mean AUC drop | Distribution alerts | AUC degradation alerts |
 |---|---:|---:|---:|---:|
