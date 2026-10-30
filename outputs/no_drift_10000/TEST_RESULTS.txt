@@ -1,0 +1,37 @@
+test_default_and_no_drift_scenario_render (test_app.AppTests.test_default_and_no_drift_scenario_render) ... 2026-10-28 17:45:50.991 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-28 17:45:51.519 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-10-28 17:45:51.705 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+ok
+test_summary_counts_every_alert_type_including_nonzero (test_no_drift.NoDriftExtensionTests.test_summary_counts_every_alert_type_including_nonzero) ... ok
+test_trial_matches_existing_benchmark_record (test_no_drift.NoDriftExtensionTests.test_trial_matches_existing_benchmark_record) ... ok
+test_zero_of_ten_thousand_interval_is_not_zero (test_no_drift.NoDriftExtensionTests.test_zero_of_ten_thousand_interval_is_not_zero) ... ok
+test_auc_ties_and_perfect_ranking (test_simulator.DriftLabTests.test_auc_ties_and_perfect_ranking) ... ok
+test_benchmark_contains_null_baseline_and_independent_seed_counts (test_simulator.DriftLabTests.test_benchmark_contains_null_baseline_and_independent_seed_counts) ... ok
+test_constant_reference_detects_change (test_simulator.DriftLabTests.test_constant_reference_detects_change) ... ok
+test_current_scenario_cannot_change_training_or_reference (test_simulator.DriftLabTests.test_current_scenario_cannot_change_training_or_reference) ... ok
+test_duplicate_benchmark_seeds_are_rejected (test_simulator.DriftLabTests.test_duplicate_benchmark_seeds_are_rejected) ... ok
+test_invalid_configuration_is_rejected (test_simulator.DriftLabTests.test_invalid_configuration_is_rejected) ... ok
+test_invalid_samples_are_rejected_instead_of_producing_nan (test_simulator.DriftLabTests.test_invalid_samples_are_rejected_instead_of_producing_nan) ... ok
+test_label_noise_keeps_binary_labels (test_simulator.DriftLabTests.test_label_noise_keeps_binary_labels) ... ok
+test_no_alert_message_does_not_count_as_an_alert (test_simulator.DriftLabTests.test_no_alert_message_does_not_count_as_an_alert) ... ok
+test_run_experiment_returns_metrics_and_drift_table (test_simulator.DriftLabTests.test_run_experiment_returns_metrics_and_drift_table) ... ok
+test_seed_reproduces_full_serialized_result (test_simulator.DriftLabTests.test_seed_reproduces_full_serialized_result) ... ok
+test_single_class_auc_is_unavailable_and_serializes_to_null (test_simulator.DriftLabTests.test_single_class_auc_is_unavailable_and_serializes_to_null) ... ok
+test_small_windows_do_not_fabricate_auc (test_simulator.DriftLabTests.test_small_windows_do_not_fabricate_auc) ... ok
+test_stronger_drift_increases_top_psi (test_simulator.DriftLabTests.test_stronger_drift_increases_top_psi) ... ok
+test_training_and_reference_are_independent_and_scaling_uses_training_only (test_simulator.DriftLabTests.test_training_and_reference_are_independent_and_scaling_uses_training_only) ... ok
+test_zero_observed_false_alerts_still_have_positive_upper_bound (test_simulator.DriftLabTests.test_zero_observed_false_alerts_still_have_positive_upper_bound) ... ok
+test_zero_strength_has_identical_label_rule_in_every_scenario (test_simulator.DriftLabTests.test_zero_strength_has_identical_label_rule_in_every_scenario) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 1.771s
+
+OK

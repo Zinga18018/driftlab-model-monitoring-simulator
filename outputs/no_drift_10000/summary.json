@@ -1,0 +1,43 @@
+{
+  "completed_trials": 10000,
+  "alert_rates": {
+    "distribution_drift": {
+      "count": 0,
+      "trials": 10000,
+      "rate": 0.0,
+      "wilson_95_interval": [
+        0.0,
+        0.00038399837067659573
+      ]
+    },
+    "model_degradation": {
+      "count": 0,
+      "trials": 10000,
+      "rate": 0.0,
+      "wilson_95_interval": [
+        0.0,
+        0.00038399837067659573
+      ]
+    },
+    "positive_rate_shift": {
+      "count": 0,
+      "trials": 10000,
+      "rate": 0.0,
+      "wilson_95_interval": [
+        0.0,
+        0.00038399837067659573
+      ]
+    },
+    "any_alert": {
+      "count": 0,
+      "trials": 10000,
+      "rate": 0.0,
+      "wilson_95_interval": [
+        0.0,
+        0.00038399837067659573
+      ]
+    }
+  },
+  "unavailable_auc_comparisons": 0,
+  "elapsed_seconds": 139.372378927
+}

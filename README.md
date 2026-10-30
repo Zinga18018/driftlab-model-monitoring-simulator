@@ -84,6 +84,14 @@ A positive AUC drop means performance fell. The variance-shift scenario improved
 
 The [generated report](outputs/MONITORING_BENCHMARK.md) and [JSON evidence](outputs/monitoring_benchmark.json) contain all 200 trials, seeds 1000-1039, class counts, actual thresholds, split fingerprints, dependency versions, and source hashes. The archived JSON records an older simulator-file hash. A [fresh local verification on 2026-10-26](docs/verification-20261026.md) reproduced every stored trial and scenario summary exactly using the current source. The original evidence files are unchanged.
 
+## Larger no-drift follow-up (2026-10-28)
+
+A separate **10,000 fresh-seed** no-drift run (seeds 1040–11039, same 2,000-row windows and unchanged thresholds) observed **0/10,000 any-alert false alerts**. The two-sided Wilson 95% interval is **0%–0.038400%**, versus **0%–8.7622%** for the original 40 runs. This narrows synthetic sampling uncertainty; it is not a production guarantee. All three alert-type counts were zero. The original 200-trial archive remains unchanged.
+
+[Full follow-up report](outputs/no_drift_10000/REPORT.md) · [per-seed evidence](outputs/no_drift_10000/trials.jsonl) · [metadata](outputs/no_drift_10000/metadata.json) · [reproduction script](scripts_no_drift.py)
+
+[Local verification on 2026-10-30](docs/verification-20261030-no-drift.md) independently audited the archived records and reran the tests plus a two-seed Windows runner check. It did not rerun all 10,000 simulations. The follow-up report preserves the original preparation and publication-status notes from 2026-10-28.
+
 ## Default app snapshot
 
 The regenerated [default snapshot](outputs/demo_metrics.json) uses seed 42, mixed drift strength 1.15, label noise 0.08, and **4,000 rows in each of the three windows**:

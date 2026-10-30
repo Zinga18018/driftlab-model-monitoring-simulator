@@ -1,0 +1,56 @@
+{
+  "protocol_matches": true,
+  "scenario_summaries_match": true,
+  "exactly_matching_trials": 195,
+  "total_trials": 200,
+  "differences": [
+    {
+      "seed": 1017,
+      "scenario": "none",
+      "field": "split_manifest",
+      "archived_training_sha256_csv": "8949c700f1253688c18a42c3a65b38bfb48bce3dee11d8b05f6df24c5d29e231",
+      "rerun_training_sha256_csv": "0fa2a899324d11e12ea77e18fef5af153a39a0d5e69ebabfc664b906810bd195"
+    },
+    {
+      "seed": 1017,
+      "scenario": "mean_shift",
+      "field": "split_manifest",
+      "archived_training_sha256_csv": "8949c700f1253688c18a42c3a65b38bfb48bce3dee11d8b05f6df24c5d29e231",
+      "rerun_training_sha256_csv": "0fa2a899324d11e12ea77e18fef5af153a39a0d5e69ebabfc664b906810bd195"
+    },
+    {
+      "seed": 1017,
+      "scenario": "variance_shift",
+      "field": "split_manifest",
+      "archived_training_sha256_csv": "8949c700f1253688c18a42c3a65b38bfb48bce3dee11d8b05f6df24c5d29e231",
+      "rerun_training_sha256_csv": "0fa2a899324d11e12ea77e18fef5af153a39a0d5e69ebabfc664b906810bd195"
+    },
+    {
+      "seed": 1017,
+      "scenario": "class_prior_shift",
+      "field": "split_manifest",
+      "archived_training_sha256_csv": "8949c700f1253688c18a42c3a65b38bfb48bce3dee11d8b05f6df24c5d29e231",
+      "rerun_training_sha256_csv": "0fa2a899324d11e12ea77e18fef5af153a39a0d5e69ebabfc664b906810bd195"
+    },
+    {
+      "seed": 1017,
+      "scenario": "mixed",
+      "field": "split_manifest",
+      "archived_training_sha256_csv": "8949c700f1253688c18a42c3a65b38bfb48bce3dee11d8b05f6df24c5d29e231",
+      "rerun_training_sha256_csv": "0fa2a899324d11e12ea77e18fef5af153a39a0d5e69ebabfc664b906810bd195"
+    }
+  ],
+  "reproducibility": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "source_sha256": {
+      "driftlab/simulator.py": "4b747f99018983adb011b643a379c9d3edc0d94c2214324f89576c14098b3ca2",
+      "driftlab/benchmark.py": "23b1a1433bc8fc698b328a4261d82ed6c139376268914a84f147f56603b88c51",
+      "scripts_benchmark.py": "13db588a7eaab5b55dd3cc83d7e6121711e6ec4bd2e3ba76317119900f81cd8f"
+    }
+  },
+  "tests_passed": 21,
+  "serial_parallel_trial_files_identical": true,
+  "overwrite_refused_without_changes": true
+}

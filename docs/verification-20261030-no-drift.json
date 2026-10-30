@@ -1,0 +1,137 @@
+{
+  "verification_date": "2026-10-30",
+  "source_commit": "1a33b24cd9a1597cebf3378197e42d9a84e24e00",
+  "scope": "Archived 10000-record audit and fresh two-seed runner/test verification; no full 10000-trial rerun",
+  "archive": {
+    "sha256": "ac511199a3697976b1ac63b49c6ca85f3e818aaeb11f55255132edd68ed3c111",
+    "size_bytes": 2822166,
+    "zip_crc": "passed"
+  },
+  "archived_evidence": {
+    "audited_utc": "2026-10-30T01:27:55.328199+00:00",
+    "rows": 10000,
+    "seeds": [
+      1040,
+      11039
+    ],
+    "unique_seeds": 10000,
+    "no_overlap_original_40": true,
+    "unique_window_hashes": 30000,
+    "each_window_rows": 2000,
+    "checks": {
+      "jsonl_byte_length_and_sha256": true,
+      "ordered_unique_seed_sequence": true,
+      "fixed_no_drift_config_and_thresholds": true,
+      "three_windows_with_expected_spawn_keys": true,
+      "train_only_fitting_manifest_flags": true,
+      "class_and_confusion_counts_consistent": true,
+      "class_rates_and_accuracy_consistent": true,
+      "recorded_auc_drop_matches_reference_minus_current": true,
+      "all_recorded_alert_flags_and_union_recomputed": true,
+      "all_summary_counts_rates_and_wilson_intervals_match": true,
+      "core_and_runner_hashes_match_metadata": true
+    },
+    "thresholds": {
+      "psi_greater_equal": 0.2,
+      "auc_drop_greater_equal": 0.08,
+      "absolute_positive_rate_change_greater": 0.08
+    },
+    "alert_counts_recomputed": {
+      "distribution_drift": 0,
+      "model_degradation": 0,
+      "positive_rate_shift": 0,
+      "any_alert": 0
+    },
+    "unavailable_auc_comparisons": 0,
+    "wilson_formula": {
+      "method": "two-sided Wilson score interval, independently calculated with math.sqrt",
+      "z": 1.959963984540054,
+      "denominator": "1 + z*z/n",
+      "center": "(p + z*z/(2*n)) / denominator",
+      "half_width": "z*sqrt(p*(1-p)/n + z*z/(4*n*n)) / denominator",
+      "interval": "[max(0, center-half_width), min(1, center+half_width)]"
+    },
+    "wilson_probability_intervals": {
+      "distribution_drift": [
+        0,
+        0.00038399837067659573
+      ],
+      "model_degradation": [
+        0,
+        0.00038399837067659573
+      ],
+      "positive_rate_shift": [
+        0,
+        0.00038399837067659573
+      ],
+      "any_alert": [
+        0,
+        0.00038399837067659573
+      ]
+    },
+    "wilson_upper_percent": 0.03839983706765957,
+    "max_observed_psi": 0.04120049603451892,
+    "max_observed_auc_drop": 0.05715158038965584,
+    "max_observed_absolute_positive_rate_delta": 0.060500000000000054,
+    "trials_size_bytes": 15039116,
+    "trials_sha256": "5c184fc397c4d9d6037ca7f3fe96233b7e59a96d00655031f771adc2fc991679",
+    "source_sha256": {
+      "driftlab/simulator.py": "4b747f99018983adb011b643a379c9d3edc0d94c2214324f89576c14098b3ca2",
+      "driftlab/benchmark.py": "23b1a1433bc8fc698b328a4261d82ed6c139376268914a84f147f56603b88c51",
+      "scripts_no_drift.py": "504989939118e2113f43f8ad8b218fd5902ddf3e46a90333391f046841f07c52"
+    },
+    "archived_environment": {
+      "python": "3.12.14",
+      "numpy": "2.3.5",
+      "pandas": "2.2.3",
+      "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+      "started_utc": "2026-10-28T21:42:57Z",
+      "completed_utc": "2026-10-28T21:45:17Z"
+    },
+    "fresh_10000_rerun": false,
+    "limits": [
+      "Alert decisions were recomputed from recorded metrics; raw-data AUC and PSI were not regenerated.",
+      "Distinct saved fingerprints and matching source hashes support the stated protocol but do not independently prove statistical independence.",
+      "The interval describes independently seeded synthetic experiments, not production false alarms per day or a production guarantee."
+    ]
+  },
+  "local_environment": {
+    "python": "3.12.14",
+    "numpy": "2.5.0",
+    "pandas": "3.0.3",
+    "streamlit": "1.58.0",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "tests": {
+    "command": "python -B -m unittest discover -s tests -v",
+    "passed": 21,
+    "failed": 0,
+    "includes_streamlit_smoke": true
+  },
+  "runner_smoke": {
+    "scope": "Two fresh Windows seeds, not a 10000-trial rerun",
+    "seeds": [
+      1040,
+      1041
+    ],
+    "serial_parallel_files_identical": true,
+    "trials_sha256": "e37c32c22170a22f7f2bcdde92a4f4115f055d690e5eb9b2c10203cde8854f9c",
+    "any_alert_count": 0,
+    "existing_output_refused_exit_code": 2,
+    "existing_trials_preserved": true,
+    "comparison_to_archived_records": [
+      {
+        "seed": 1040,
+        "top_level_fields": [
+          "split_manifest"
+        ]
+      }
+    ]
+  },
+  "historical_benchmark": {
+    "unchanged_from_base_commit": true,
+    "sha256": "bdfffa3a451fefe6cf8ec0b4a39ea8f36db4ddf75c1e7c85621d574dab037c7a"
+  },
+  "remote_ci_verified": false,
+  "hosted_app_verified": false
+}

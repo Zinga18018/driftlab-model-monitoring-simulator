@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "source_commit": "1a33b24cd9a1597cebf3378197e42d9a84e24e00",
+  "source_sha256": {
+    "driftlab/simulator.py": "4b747f99018983adb011b643a379c9d3edc0d94c2214324f89576c14098b3ca2",
+    "driftlab/benchmark.py": "23b1a1433bc8fc698b328a4261d82ed6c139376268914a84f147f56603b88c51",
+    "scripts_no_drift.py": "504989939118e2113f43f8ad8b218fd5902ddf3e46a90333391f046841f07c52"
+  },
+  "python": "3.12.14",
+  "numpy": "2.3.5",
+  "pandas": "2.2.3",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+  "workers": 4,
+  "blas_threads": 1,
+  "start_seed": 1040,
+  "end_seed_inclusive": 11039,
+  "requested_trials": 10000,
+  "config": {
+    "rows": 2000,
+    "drift_strength": 0,
+    "drift_mode": "none",
+    "label_noise": 0.08,
+    "seed": 42,
+    "psi_alert_threshold": 0.2,
+    "auc_drop_threshold": 0.08,
+    "train_rows": null
+  },
+  "thresholds": {
+    "psi_greater_equal": 0.2,
+    "auc_drop_greater_equal": 0.08,
+    "absolute_positive_rate_change_greater": 0.08
+  },
+  "protocol": "Fresh model per seed; three isolated SeedSequence child streams; unchanged run_experiment; no tuning",
+  "started_utc": "2026-10-28T21:42:57Z",
+  "completed_utc": "2026-10-28T21:45:17Z",
+  "trials_sha256": "5c184fc397c4d9d6037ca7f3fe96233b7e59a96d00655031f771adc2fc991679"
+}

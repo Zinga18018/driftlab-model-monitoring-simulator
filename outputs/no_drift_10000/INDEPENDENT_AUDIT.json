@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "rows": 10000,
+  "unique_seeds": 10000,
+  "seed_range_inclusive": [
+    1040,
+    11039
+  ],
+  "unique_window_hashes": 30000,
+  "alerts_recomputed_from_metrics": true,
+  "all_alert_counts": 0,
+  "unavailable_auc_comparisons": 0,
+  "source_files_unchanged": true,
+  "wilson_independent_probability_interval": [
+    0,
+    0.00038399837067659557
+  ],
+  "trials_sha256": "5c184fc397c4d9d6037ca7f3fe96233b7e59a96d00655031f771adc2fc991679"
+}
